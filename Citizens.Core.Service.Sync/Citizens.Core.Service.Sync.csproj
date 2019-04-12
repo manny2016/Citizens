@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MariGold.HtmlParser" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Citizens.Core.Service\Citizens.Core.Service.csproj" />
+    <ProjectReference Include="..\Citizens.Core\Citizens.Core.csproj" />
+  </ItemGroup>
+
+</Project>

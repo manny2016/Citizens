@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Citizens.Core.Service.Sync\Citizens.Core.Service.Sync.csproj" />
+    <ProjectReference Include="..\..\Citizens.Core.Service\Citizens.Core.Service.csproj" />
+    <ProjectReference Include="..\..\Citizens.Core\Citizens.Core.csproj" />
+  </ItemGroup>
+
+</Project>
