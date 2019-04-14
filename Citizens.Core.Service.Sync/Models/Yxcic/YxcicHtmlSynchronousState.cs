@@ -4,9 +4,9 @@ using Citizens.Core.Service;
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxhouseHtmlSynchronousState : ProcessState<HtmlContext>
+    public class YxcicHtmlSynchronousState : ProcessState<HtmlContext>
     {
-        public YxhouseHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
+        public YxcicHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
         {
 
         }

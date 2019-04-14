@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Citizens.Core", "Citizens.C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Agents", "Agents", "{0F855316-9157-4447-8A41-309BCD08125B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citizens.Agent.Synchronizer", "Agents\Citizens.Agent.WebCrawler\Citizens.Agent.Synchronizer.csproj", "{D997B291-1D0D-4467-A296-F5CEB5F64A9F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Citizens.Agent.Synchronizer", "Agents\Citizens.Agent.Synchronizer\Citizens.Agent.Synchronizer.csproj", "{D997B291-1D0D-4467-A296-F5CEB5F64A9F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{95862BF2-D213-454F-876A-9E4E71DD5EAF}"
 EndProject

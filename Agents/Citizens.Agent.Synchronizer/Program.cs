@@ -20,10 +20,19 @@ namespace Citizens.Agent.Synchronizer
         {
             CitizensHost.ConfigureServiceProvider((configure) =>
             {
-                configure.AddCoreServices();
-                var settings = new YxhouseHtmlSynchronousSettings();                
+                //configure.AddCoreServices();
+                //var yxhouse = new YxhouseHtmlSynchronousSettings();
+                //configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
+                //    new WorkItemWithDataflow<YxhouseHtmlSynchronousState, HtmlContext>(new YxhouseHtmlSynchronousState(yxhouse))));
+
+                //var govnews = new GovnewsHtmlSynchronousSettings();
+                //configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
+                //    new WorkItemWithDataflow<GovnewsHtmlSynchronousState, HtmlContext>(new GovnewsHtmlSynchronousState(govnews))));
+
+                var yxcic = new YxcicHtmlSynchronousSettings();
                 configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
-                    new WorkItemWithDataflow<YxhouseHtmlSynchronousState,HtmlContext>(new YxhouseHtmlSynchronousState(settings))));
+                    new WorkItemWithDataflow<YxcicHtmlSynchronousState, HtmlContext>(new YxcicHtmlSynchronousState(yxcic))));
+
             });
             StartAuto();
         }
@@ -43,7 +52,7 @@ namespace Citizens.Agent.Synchronizer
 
                         try
                         {
-                            var offset = 60D * 15;//5 mins                        
+                            var offset = 60D * 1;//5 mins                        
                             workitem.Execute();
                             for (var i = 0; ((cancellation.IsCancellationRequested == false) && (i < offset)); i++)
                             {

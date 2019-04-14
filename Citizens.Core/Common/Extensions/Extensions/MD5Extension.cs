@@ -13,10 +13,16 @@ namespace Citizens.Core
         {
             using (var md5 = MD5.Create())
             {
-                using (var stream = File.OpenRead(fileName))
-                {
-                    return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
-                }
+                var stream = File.OpenRead(fileName);
+                return BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", string.Empty);
+            }
+        }
+        public static string GetMD5FromString(this string text)
+        {
+            using (var md5 = MD5.Create())
+            {
+                var buffers = UTF8Encoding.Default.GetBytes(text);
+                return BitConverter.ToString(md5.ComputeHash(buffers));
             }
         }
     }

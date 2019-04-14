@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
-using Citizens.Core.Models;
-using Citizens.Core.Service;
+﻿
+
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxhouseHtmlSynchronousState : ProcessState<HtmlContext>
+    using Citizens.Core.Models;
+    using Citizens.Core.Service;
+
+    public class GovnewsHtmlSynchronousState : ProcessState<HtmlContext>
     {
-        public YxhouseHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
+        public GovnewsHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
         {
 
         }
@@ -14,8 +16,9 @@ namespace Citizens.Core.Sync.Models
         {
             get
             {
-                return "yxhouse";
+                return "gov-news";
             }
+
         }
         public override IProcessingResultService<HtmlContext> GenerateProcessingResultService()
         {

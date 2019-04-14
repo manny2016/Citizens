@@ -26,7 +26,7 @@ namespace Citizens.Core
                 }
                 collection.AddLogging((cfg) =>
                 {
-                    cfg.AddConsole();
+                    cfg.AddConsole();                    
                     cfg.AddLog4Net();
                 });
                 collection.AddMemoryCache();
