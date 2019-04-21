@@ -1,7 +1,7 @@
 ﻿
-namespace Citizens.Core.Service.Sync
+namespace Citizens.Core
 {
-    using Citizens.Core;
+    
     using Citizens.Core.Models;
     using Microsoft.SqlServer.Server;
     using System;

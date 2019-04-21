@@ -1,7 +1,7 @@
 ﻿
 
 CREATE TABLE [dbo].[t_smzy_Article](
-	[ArticleID] [nvarchar](50) NOT NULL,
+	[ArticleId] [nvarchar](50) NOT NULL,
 	[ArticleTitle] [nvarchar](200) NULL,
 	[ArticleSubtitle] [nvarchar](256) NULL,
 	[CoverImage] [nvarchar](256) NULL,
