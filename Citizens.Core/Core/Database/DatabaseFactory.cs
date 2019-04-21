@@ -12,10 +12,10 @@ namespace Citizens.Core
 #if DEBUG
 
             if (string.IsNullOrEmpty(connectString))
-                connectString = GenerateMSSqlConnectionString("asfp-pbi.database.windows.net", "reporting_uat", "asfpd", "AsFp.Azure.2019");
+                connectString = GenerateMSSqlConnectionString("172.18.2.11", "smzy_main_20160225", "sa", "Window2008");
 #else
             if (string.IsNullOrEmpty(connectString))
-                connectString = GenerateMSSqlConnectionString("asfp-pbi.database.windows.net", "reporting", "asfpd", "AsFp.Azure.2019");
+                connectString = GenerateMSSqlConnectionString("172.18.2.11", "smzy_main_20160225", "sa", "Window2008");
 #endif
             return new SqlConnection(connectString);
 

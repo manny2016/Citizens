@@ -31,7 +31,7 @@ namespace Citizens.Agent.Synchronizer
 
                 var yxcic = new YxcicHtmlSynchronousSettings();
                 configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
-                    new WorkItemWithDataflow<YxcicHtmlSynchronousState, HtmlContext>(new YxcicHtmlSynchronousState(yxcic))));
+                    new WorkItemWithDataflow<YxcicHtmlSynchronousState, WebArticle>(new YxcicHtmlSynchronousState(yxcic))));
 
             });
             StartAuto();

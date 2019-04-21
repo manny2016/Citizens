@@ -11,7 +11,7 @@ namespace Citizens.Core.Service.Sync
         public static string Clearup(this string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
-
+            text = text.TrimStart('\"').TrimEnd('\"');
             text = text.TrimEnter();
             text = text.Trim();
             return text;

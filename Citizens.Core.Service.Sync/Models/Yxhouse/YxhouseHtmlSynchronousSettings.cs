@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxhouseHtmlSynchronousSettings : IProcessSetting<HtmlContext>
+    public class YxhouseHtmlSynchronousSettings : IProcessSetting<WebArticle>
     {
-        public IProcessService<HtmlContext> GenerateProcessService()
+        public IProcessService<WebArticle> GenerateProcessService()
         {
 
             return new YxHouseSynchronousService(this);

@@ -6,18 +6,19 @@ namespace Citizens.Core.Sync.Models
 {
     public class Resource
     {
-        public string Key { get; set; }
 
         public string Url { get; set; }
 
         public string Prefix { get; set; }
 
-        public string[] HtmlContextKeyNames { get; set; }
+        public string[] ArticleKeyNames { get; set; }
 
-        public string Channel { get; set; }
+        public string PublishToWhichChannel { get; set; }
 
         public string Description { get; set; }
 
         public string Host { get; set; }
+        public string DefaultImage { get; set; }
+        public string Name { get; set; }
     }
 }

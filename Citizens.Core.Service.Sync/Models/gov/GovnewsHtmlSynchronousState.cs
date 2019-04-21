@@ -6,9 +6,9 @@ namespace Citizens.Core.Sync.Models
     using Citizens.Core.Models;
     using Citizens.Core.Service;
 
-    public class GovnewsHtmlSynchronousState : ProcessState<HtmlContext>
+    public class GovnewsHtmlSynchronousState : ProcessState<WebArticle>
     {
-        public GovnewsHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
+        public GovnewsHtmlSynchronousState(IProcessSetting<WebArticle> setting) : base(setting)
         {
 
         }
@@ -20,7 +20,7 @@ namespace Citizens.Core.Sync.Models
             }
 
         }
-        public override IProcessingResultService<HtmlContext> GenerateProcessingResultService()
+        public override IProcessingResultService<WebArticle> GenerateProcessingResultService()
         {
             return new HtmlContentService();
         }

@@ -5,7 +5,7 @@ namespace Citizens.Core.Service
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    public class HtmlContentService : IProcessingResultService<HtmlContext>
+    public class HtmlContentService : IProcessingResultService<WebArticle>
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(HtmlContentService));
 
@@ -14,11 +14,11 @@ namespace Citizens.Core.Service
 
         }
 
-        public void Save(IEnumerable<HtmlContext> results)
+        public void Save(IEnumerable<WebArticle> results)
         {
-            foreach (var context in results.ToList())
+            using(var database = DatabaseFactory.GenerateDatabase())
             {
-                Logger.Info(context.SerializeToJson());
+
             }
         }
     }

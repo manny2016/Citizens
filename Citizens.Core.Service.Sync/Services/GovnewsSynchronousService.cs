@@ -19,17 +19,16 @@ namespace Citizens.Core.Service.Sync
         {
             yield return new Resource()
             {
-                Key = "gov-news",
                 Url = "http://www.yixing.gov.cn/zgyx/zxzx/ywdt/index.shtml",
-                Channel = "yxzw",
+                PublishToWhichChannel = "yxzw",
                 Description = "宜兴政务-要闻中心",
-                HtmlContextKeyNames = new string[] { },
+                ArticleKeyNames = new string[] { },
                 Prefix = "govcn.news.",
                 Host = "http://www.yixing.gov.cn/"
             };
         }
 
-        protected override IEnumerable<HtmlContext> Genernate(HtmlDocument document, Resource resource)
+        protected override IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource)
         {
             var list = document.DocumentNode.SelectNodes(@"//div[@class='zxzx_list']/*/a");
             if (list == null) yield break;
@@ -40,29 +39,33 @@ namespace Citizens.Core.Service.Sync
                 var title = node.InnerText;
                 var datetime = node.SelectSingleNode(@"./span").InnerText.TrytoDateTime();
                 var contextId = url.GetIdfromurl();
-                yield return Genernate(resource.Host, string.Concat(resource.Prefix, "id"), contextId, title, url);
+                yield return Genernate(resource, contextId, title, url, datetime);
             }
         }
-        private HtmlContext Genernate(string host, string prefix, string contextId, string title, string link)
+        protected override WebArticle Genernate(Resource resource, string originalId, string title, string originalUrl, DateTime? datetime)
         {
             var doc = new HtmlDocument();
-            doc.LoadHtml(link.GetUriContent());
+            doc.LoadHtml(originalId.GetUriContent());
             var node = doc.DocumentNode.SelectSingleNode(@"//div[@class='show_content']");
             var selectors = new string[] { "./input" };
+            var innerText = node.InnerText;
             node.Clearup(selectors)
-                .TrimImageUrl(host)
-                .TrimInsideUrl(host)
+                .TrimImageUrl(resource.Host)
+                .TrimInsideUrl(resource.Host)
                 .TrimStyles();
-
-            return new HtmlContext()
+            return new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
             {
-                Context = node.InnerHtml,
-                Id = contextId,
-                OriginalUrl = link,
-                Prefix = prefix,
-                Innerlink = true
+                OriginalUrl = originalUrl,
+                ArticleSourceName = resource.Name,
+                ArticleTime = datetime ?? DateTime.Now,
+                ArticleTitle = title,
+                ArticleVisit = 0,
+                ArticleWriter = string.Empty,
+                CoverImage = this.DetectConverImage(node) ?? resource.DefaultImage,
+                Images = this.DetectImages(node) ?? new string[] { resource.DefaultImage },
+                HtmlContent = node.InnerHtml,
+                Summary = innerText.TrySubstring(0, 2000)
             };
         }
-
     }
 }

@@ -4,9 +4,9 @@ using Citizens.Core.Service;
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxhouseHtmlSynchronousState : ProcessState<HtmlContext>
+    public class YxhouseHtmlSynchronousState : ProcessState<WebArticle>
     {
-        public YxhouseHtmlSynchronousState(IProcessSetting<HtmlContext> setting) : base(setting)
+        public YxhouseHtmlSynchronousState(IProcessSetting<WebArticle> setting) : base(setting)
         {
 
         }
@@ -17,7 +17,7 @@ namespace Citizens.Core.Sync.Models
                 return "yxhouse";
             }
         }
-        public override IProcessingResultService<HtmlContext> GenerateProcessingResultService()
+        public override IProcessingResultService<WebArticle> GenerateProcessingResultService()
         {
             return new HtmlContentService();
         }
