@@ -14,7 +14,7 @@ namespace Citizens.Core.Sync.Models
         {
             get
             {
-                return "yxhouse";
+                return "Yxcic";
             }
         }
         public override IProcessingResultService<WebArticle> GenerateProcessingResultService()

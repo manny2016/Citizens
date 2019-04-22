@@ -24,7 +24,9 @@ namespace Citizens.Core.Service.Sync
                 Description = "宜兴政务-要闻中心",
                 ArticleKeyNames = new string[] { },
                 Prefix = "govcn.news.",
-                Host = "http://www.yixing.gov.cn/"
+                Host = "http://www.yixing.gov.cn/",
+                Name = "要闻中心"
+
             };
         }
 
@@ -45,7 +47,7 @@ namespace Citizens.Core.Service.Sync
         protected override WebArticle Genernate(Resource resource, string originalId, string title, string originalUrl, DateTime? datetime)
         {
             var doc = new HtmlDocument();
-            doc.LoadHtml(originalId.GetUriContent());
+            doc.LoadHtml(originalUrl.GetUriContent());
             var node = doc.DocumentNode.SelectSingleNode(@"//div[@class='show_content']");
             var selectors = new string[] { "./input" };
             var innerText = node.InnerText;
