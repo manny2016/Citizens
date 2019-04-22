@@ -32,6 +32,7 @@ namespace Citizens.Core.Service.Sync
         }
         protected override WebArticle Genernate(Resource resource, string originalId, string title, string originalUrl, DateTime? datetime)
         {
+            if (string.IsNullOrEmpty(originalId)) return null;
             if (IsWxPage(originalUrl))
             {
                 return new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
@@ -67,7 +68,7 @@ namespace Citizens.Core.Service.Sync
                     CoverImage = this.DetectConverImage(node) ?? resource.DefaultImage,
                     Images = this.DetectImages(node) ?? new string[] { resource.DefaultImage },
                     HtmlContent = node.InnerHtml,
-                    Summary = innerText.TrySubstring(0, 2000)
+                    Summary = innerText.TrySubstring(0, 300).Trim()
 
                 };
             }

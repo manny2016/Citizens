@@ -8,6 +8,7 @@ namespace Citizens.Core.Service.Sync
     using System.Collections.Generic;
     public static class StringExtension
     {
+        private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(StringExtension));
         public static string Clearup(this string text)
         {
             if (string.IsNullOrEmpty(text)) return text;
@@ -39,6 +40,7 @@ namespace Citizens.Core.Service.Sync
         }
         public static string GetQueryParameters(this string queryString, out string key, params string[] names)
         {
+            key = string.Empty;
             var uri = new Uri(queryString);
             var dictionary = new Dictionary<string, string>();
             var parameters = uri.Query.ToLower().TrimStart('?').Split("&");
@@ -53,8 +55,15 @@ namespace Citizens.Core.Service.Sync
                     dictionary.Add(keyval[0], string.Empty);
                 }
             }
+            if (dictionary.Keys == null)
+            {
+                Logger.Error($"Cant find key in one of [{string.Join(',', names)}] from query string {queryString}");
+                return string.Empty;
+            }
             key = dictionary.Keys.Where(o => names.Any(n => n.Equals(o, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
             return dictionary[key] ?? string.Empty;
+
+
         }
         public static string GetIdfromurl(this string url)
         {

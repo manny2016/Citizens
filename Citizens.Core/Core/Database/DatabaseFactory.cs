@@ -12,10 +12,10 @@ namespace Citizens.Core
 #if DEBUG
 
             if (string.IsNullOrEmpty(connectString))
-                connectString = GenerateMSSqlConnectionString("DESKTOP-CF53RUS", "smzy", "sa", "Window2008");
+                connectString = GenerateMSSqlConnectionString("172.18.2.11", "smzy_main_20160225", "smzy", "Window2008");
 #else
             if (string.IsNullOrEmpty(connectString))
-                connectString = GenerateMSSqlConnectionString("172.18.2.11", "smzy_main_20160225", "sa", "Window2008");
+                connectString = GenerateMSSqlConnectionString("172.18.2.11", "smzy_main_20160225", "smzy", "Window2008");
 #endif
             return new SqlConnection(connectString);
 

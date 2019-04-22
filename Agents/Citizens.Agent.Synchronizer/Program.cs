@@ -21,9 +21,9 @@ namespace Citizens.Agent.Synchronizer
             CitizensHost.ConfigureServiceProvider((configure) =>
             {
                 //configure.AddCoreServices();
-                //var yxhouse = new YxhouseHtmlSynchronousSettings();
-                //configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
-                //    new WorkItemWithDataflow<YxhouseHtmlSynchronousState, WebArticle>(new YxhouseHtmlSynchronousState(yxhouse))));
+                var yxhouse = new YxhouseHtmlSynchronousSettings();
+                configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
+                    new WorkItemWithDataflow<YxhouseHtmlSynchronousState, WebArticle>(new YxhouseHtmlSynchronousState(yxhouse))));
 
                 var govnews = new GovnewsHtmlSynchronousSettings();
                 configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),

@@ -110,6 +110,7 @@ namespace Citizens.Core.Service.Sync
 
         protected override WebArticle Genernate(Resource resource, string originalId, string title, string originalUrl, DateTime? datetime)
         {
+            if (string.IsNullOrEmpty(originalId)) return null;
             var doc = new HtmlDocument();
             doc.LoadHtml(originalUrl.GetUriContent());
             HtmlNode node = null;
