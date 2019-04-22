@@ -23,11 +23,11 @@ namespace Citizens.Agent.Synchronizer
                 //configure.AddCoreServices();
                 //var yxhouse = new YxhouseHtmlSynchronousSettings();
                 //configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
-                //    new WorkItemWithDataflow<YxhouseHtmlSynchronousState, HtmlContext>(new YxhouseHtmlSynchronousState(yxhouse))));
+                //    new WorkItemWithDataflow<YxhouseHtmlSynchronousState, WebArticle>(new YxhouseHtmlSynchronousState(yxhouse))));
 
-                //var govnews = new GovnewsHtmlSynchronousSettings();
-                //configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
-                //    new WorkItemWithDataflow<GovnewsHtmlSynchronousState, HtmlContext>(new GovnewsHtmlSynchronousState(govnews))));
+                var govnews = new GovnewsHtmlSynchronousSettings();
+                configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
+                    new WorkItemWithDataflow<GovnewsHtmlSynchronousState, WebArticle>(new GovnewsHtmlSynchronousState(govnews))));
 
                 var yxcic = new YxcicHtmlSynchronousSettings();
                 configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
@@ -38,6 +38,8 @@ namespace Citizens.Agent.Synchronizer
         }
         static void StartAuto()
         {
+          
+
 
             var workitems = CitizensHost.GetServices<ICitizensWorkItem>();
             var scheduler = new WebJobScheduler((cancellation) =>
@@ -52,7 +54,7 @@ namespace Citizens.Agent.Synchronizer
 
                         try
                         {
-                            var offset = 60D * 1;//5 mins                        
+                            var offset = 60D * 5;//5 mins                        
                             workitem.Execute();
                             for (var i = 0; ((cancellation.IsCancellationRequested == false) && (i < offset)); i++)
                             {

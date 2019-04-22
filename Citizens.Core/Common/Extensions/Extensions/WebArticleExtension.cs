@@ -1,7 +1,7 @@
 ﻿
 namespace Citizens.Core
 {
-    
+
     using Citizens.Core.Models;
     using Microsoft.SqlServer.Server;
     using System;
@@ -97,7 +97,7 @@ namespace Citizens.Core
                             SetInt32ToDataRecord(ref record, i, article.ArticleVisit);
                             break;
                         case "IsAnswer":
-                            SetBitToDataRecord(ref record, i, false);
+                            SetInt32ToDataRecord(ref record, i, 0);
                             break;
                         case "MappingID":
                             SetStringToDataRecord(ref record, i, mappingid);
@@ -115,7 +115,7 @@ namespace Citizens.Core
                             SetStringToDataRecord(ref record, i, article.Summary);
                             break;
                         case "Images":
-                            var images = string.Join(",", article.Images);
+                            var images = article.Images == null ? string.Empty : string.Join(",", article.Images);
                             SetStringToDataRecord(ref record, i, images);
                             break;
                         case "Category":
@@ -163,8 +163,16 @@ namespace Citizens.Core
         }
         private static void SetBitToDataRecord(ref SqlDataRecord record, int index, bool? value)
         {
-            if (value.HasValue) { record.SetBoolean(index, value.Value); }
-            else { record.SetDBNull(index); }
+            try
+            {
+                if (value.HasValue) { record.SetSqlBoolean(index, value.Value); }
+                else { record.SetDBNull(index); }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

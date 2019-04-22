@@ -1,6 +1,6 @@
 ﻿CREATE TYPE [dbo].[ImportArticleStructure] AS TABLE
 (
-	[ArticleID]			NVARCHAR(50) NOT NULL,
+	[ArticleId]			NVARCHAR(50) NOT NULL,
 	[ArticleTitle]		NVARCHAR(200) NULL,
 	[ArticleSubtitle]	NVARCHAR(256) NULL,
 	[CoverImage]		NVARCHAR(256) NULL,

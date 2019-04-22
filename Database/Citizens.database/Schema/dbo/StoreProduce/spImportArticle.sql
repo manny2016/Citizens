@@ -32,10 +32,10 @@ BEGIN TRY
 			[target].[ArticleVisit] 	=[source].[ArticleVisit],
 			[target].[IsAnswer] 		=[source].[IsAnswer]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([ArticleID],[ArticleTitle],[ArticleSubtitle],[CoverImage],[AllowComent],[Visits],[ArticleStatus],[OverdueTime],[HtmlContent],
+		INSERT ([ArticleId],[ArticleTitle],[ArticleSubtitle],[CoverImage],[AllowComent],[Visits],[ArticleStatus],[OverdueTime],[HtmlContent],
 			[TextContent],[VisitRights],[Keyword],[ArticleType],[ArticleTime],[ArticleWriter],	[ArticleSourceName],[ArticleSource],[IsDeleted],
 			[VersionNo],[TransactionID],[CreatedBy],[CreatedTime],[LastUpdatedBy],[LastUpdatedTime],[ArticleVisit],	[IsAnswer])
-		VALUES([source].[ArticleID],[source].[ArticleTitle],[source].[ArticleSubtitle],[source].[CoverImage],[source].[AllowComent],
+		VALUES([source].[ArticleId],[source].[ArticleTitle],[source].[ArticleSubtitle],[source].[CoverImage],[source].[AllowComent],
 		[source].[Visits],[source].[ArticleStatus],[source].[OverdueTime],[source].[HtmlContent],[source].[TextContent],[source].[VisitRights] ,
 		[source].[Keyword],[source].[ArticleType],[source].[ArticleTime],[source].[ArticleWriter],[source].[ArticleSourceName],[source].[ArticleSource] ,
 		[source].[IsDeleted],[source].[VersionNo],[source].[TransactionID],[source].[CreatedBy],[source].[CreatedTime],[source].[LastUpdatedBy],
@@ -50,7 +50,7 @@ BEGIN TRY
 		[target].[SvrID]=[source].[SvrID],
 		[target].[AppID]=[source].[AppID],
 		[target].[ChannelID]=[source].[ChannelID],
-		[target].[ArticleID]=[source].[ArticleID],
+		[target].[ArticleId]=[source].[ArticleId],
 		[target].[Summary]=[source].[Summary],
 		[target].[Images]=[source].[Images],
 		[target].[ArticleTitle]=[source].[ArticleTitle],
@@ -72,8 +72,8 @@ BEGIN TRY
 		[target].[ArticleVisit]=[source].[ArticleVisit],
 		[target].[IsAnswer]=[source].[IsAnswer]
 	WHEN NOT MATCHED BY TARGET THEN
-		INSERT ([MappingID] ,[SvrID] ,[AppID] ,[ChannelID] ,[ArticleID] ,[Summary] ,[Images] ,[ArticleTitle] ,[ArticleSourceName] ,[ArticleSource] ,[OverdueTime] ,[ArticleTime] ,[Category] ,[OpenStyle] ,[Url] ,[IsDeleted] ,[VersionNo] ,[TransactionID] ,[CreatedBy] ,[CreatedTime] ,[LastUpdatedBy] ,[LastUpdatedTime] ,[PublishUserName] ,[ArticleVisit] ,[IsAnswer])
-		VALUES([source].[MappingID] ,[source].[SvrID] ,[source].[AppID] ,[source].[ChannelID] ,[source].[ArticleID] ,[source].[Summary] ,[source].[Images] ,[source].[ArticleTitle] ,[source].[ArticleSourceName] ,[source].[ArticleSource] ,[source].[OverdueTime] ,[source].[ArticleTime] ,[source].[Category] ,[source].[OpenStyle] ,[source].[Url] ,[source].[IsDeleted] ,[source].[VersionNo] ,[source].[TransactionID] ,[source].[CreatedBy] ,[source].[CreatedTime] ,[source].[LastUpdatedBy] ,[source].[LastUpdatedTime] ,[source].[PublishUserName] ,[source].[ArticleVisit] ,[source].[IsAnswer]);
+		INSERT ([MappingID] ,[SvrID] ,[AppID] ,[ChannelID] ,[ArticleId] ,[Summary] ,[Images] ,[ArticleTitle] ,[ArticleSourceName] ,[ArticleSource] ,[OverdueTime] ,[ArticleTime] ,[Category] ,[OpenStyle] ,[Url] ,[IsDeleted] ,[VersionNo] ,[TransactionID] ,[CreatedBy] ,[CreatedTime] ,[LastUpdatedBy] ,[LastUpdatedTime] ,[PublishUserName] ,[ArticleVisit] ,[IsAnswer])
+		VALUES([source].[MappingID] ,[source].[SvrID] ,[source].[AppID] ,[source].[ChannelID] ,[source].[ArticleId] ,[source].[Summary] ,[source].[Images] ,[source].[ArticleTitle] ,[source].[ArticleSourceName] ,[source].[ArticleSource] ,[source].[OverdueTime] ,[source].[ArticleTime] ,[source].[Category] ,[source].[OpenStyle] ,[source].[Url] ,[source].[IsDeleted] ,[source].[VersionNo] ,[source].[TransactionID] ,[source].[CreatedBy] ,[source].[CreatedTime] ,[source].[LastUpdatedBy] ,[source].[LastUpdatedTime] ,[source].[PublishUserName] ,[source].[ArticleVisit] ,[source].[IsAnswer]);
 
 	COMMIT TRANSACTION
 END TRY
