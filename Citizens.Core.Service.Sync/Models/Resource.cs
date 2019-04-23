@@ -18,7 +18,7 @@ namespace Citizens.Core.Sync.Models
         public string Description { get; set; }
 
         public string Host { get; set; }
-        public string DefaultImage { get; set; }
+        public string[] DefaultImages { get; set; }
         public string Name { get; set; }
     }
 }

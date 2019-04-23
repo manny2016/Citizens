@@ -81,7 +81,15 @@ namespace Citizens.Core.Service.Sync
                 ArticleKeyNames = new string[] { "newsId", "buildingId" },
                 Prefix = "yxhouse.news.",
                 Host = "https://www.yxhouse.com/",
-                Name = "房产新闻"
+                Name = "房产新闻",
+                DefaultImages = new string[] {
+                    "../assets/img/fcxw0.png",
+                    "../assets/img/fcxw1.png",
+                    "../assets/img/fcxw2.png",
+                    "../assets/img/fcxw3.png",
+                    "../assets/img/fcxw4.png"
+                }
+
             };
 
             yield return new Resource()
@@ -92,7 +100,14 @@ namespace Citizens.Core.Service.Sync
                 ArticleKeyNames = new string[] { "newsId", "buildingId" },
                 Prefix = "yxhouse.newhouse.",
                 Host = "https://www.yxhouse.com/",
-                Name = "新房资讯"
+                Name = "新房资讯",
+                DefaultImages = new string[] {
+                    "../assets/img/fcxw5.png",
+                    "../assets/img/fcxw6.png",
+                    "../assets/img/fcxw7.png",
+                    "../assets/img/fcxw8.png",
+                    "../assets/img/fcxw9.png",
+                }
             };
 
             yield return new Resource()
@@ -103,8 +118,17 @@ namespace Citizens.Core.Service.Sync
                 ArticleKeyNames = new string[] { "messageID" },
                 Prefix = Plan_NewsPlan,
                 Host = "http://www.jsmlr.gov.cn/",
-                Name = "规划新闻"
-
+                Name = "规划新闻",
+                DefaultImages = new string[] {
+                    "../assets/img/ghxw0.png",
+                    "../assets/img/ghxw1.png",
+                    "../assets/img/ghxw2.png",
+                    "../assets/img/ghxw3.png",
+                    "../assets/img/ghxw4.png",
+                    "../assets/img/ghxw5.png",
+                    "../assets/img/ghxw6.png",
+                    "../assets/img/ghxw7.png"
+                }
             };
         }
 
@@ -136,9 +160,7 @@ namespace Citizens.Core.Service.Sync
                     .TrimInsideUrl(resource.Host)
                     .TrimStyles();
 
-
-
-            return new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
+            var result = new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
             {
                 OriginalUrl = originalUrl,
                 ArticleSourceName = resource.Name,
@@ -146,12 +168,16 @@ namespace Citizens.Core.Service.Sync
                 ArticleTitle = title,
                 ArticleVisit = 0,
                 ArticleWriter = string.Empty,
-                CoverImage = this.DetectConverImage(node) ?? resource.DefaultImage,
-                Images = this.DetectImages(node) ?? new string[] { resource.DefaultImage },
+                CoverImage = this.DetectConverImage(node) ?? null,
+                Images = this.DetectImages(node) ?? null,
                 HtmlContent = node.InnerHtml,
                 Summary = innerText.TrySubstring(0, 2000)
-
             };
+            if (result.Images == null ||string.IsNullOrEmpty(result.CoverImage))
+            {
+
+            }
+            return result;
         }
 
         public HtmlNode GenernateContainer()

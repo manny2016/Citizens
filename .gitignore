@@ -3,3 +3,19 @@
 ################################################################################
 
 /.vs
+/Citizens.Core.Service/bin
+/Agents/Citizens.Agent.Synchronizer/bin
+/Agents/Citizens.Agent.Synchronizer/obj
+/Agents/Citizens.Agent.Synchronizer/Properties/PublishProfiles
+/Agents/Citizens.Agent.Synchronizer/Citizens.Agent.Synchronizer.csproj.user
+/Citizens.Core/bin
+/Citizens.Core/obj
+/Citizens.Core.Service.Sync/bin
+/Citizens.Core.Service.Sync/obj
+/Citizens.Core.Service/obj
+/Database/Citizens.database/bin/Debug
+/Database/Citizens.database/obj/Debug
+*.dbmdl
+*.user
+/UnitTest/ConsoleApp1/bin/Debug/netcoreapp2.1
+/UnitTest/ConsoleApp1/obj
