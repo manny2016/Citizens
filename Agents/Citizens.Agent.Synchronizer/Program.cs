@@ -54,7 +54,7 @@ namespace Citizens.Agent.Synchronizer
 
                         try
                         {
-                            var offset = 60D * 5;//5 mins                        
+                            var offset = 60D * 60;//5 mins                        
                             workitem.Execute();
                             for (var i = 0; ((cancellation.IsCancellationRequested == false) && (i < offset)); i++)
                             {

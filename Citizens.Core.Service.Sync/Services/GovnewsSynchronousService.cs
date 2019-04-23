@@ -61,9 +61,14 @@ namespace Citizens.Core.Service.Sync
 
             foreach (var node in list)
             {
-                var url = node.Attributes["href"].Value.TrimHttplink(resource.Host);
-                var title = node.InnerText;
                 var datetime = node.SelectSingleNode(@"./span").InnerText.TrytoDateTime();
+                var span = node.SelectSingleNode("./span");
+                if (span != null)
+                {
+                    node.RemoveChild(span);
+                }
+                var url = node.Attributes["href"].Value.TrimHttplink(resource.Host);
+                var title = node.InnerText;                
                 var contextId = url.GetIdfromurl();
                 yield return Genernate(resource, contextId, title, url, datetime);
             }
@@ -74,7 +79,7 @@ namespace Citizens.Core.Service.Sync
             var doc = new HtmlDocument();
             doc.LoadHtml(originalUrl.GetUriContent());
             var node = doc.DocumentNode.SelectSingleNode(@"//div[@class='show_content']");
-            var selectors = new string[] { "./input" };           
+            var selectors = new string[] { "./input" };
 
             node.Clearup(selectors)
                 .TrimImageUrl(resource.Host)
