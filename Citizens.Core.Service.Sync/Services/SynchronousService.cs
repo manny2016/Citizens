@@ -62,16 +62,32 @@ namespace Citizens.Core.Service.Sync
         protected abstract IEnumerable<Resource> GetResources();
 
         protected abstract IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource);
-        protected virtual string DetectConverImage(HtmlNode node)
+        protected virtual string DetectConverImage(HtmlNode node, string[] defaultImages, int hashCode)
         {
-            var image = node.SelectSingleNode("./*/img");
-            if (image == null) return string.Empty;
+            var image = node==null?null: node.SelectSingleNode("./*/img");
+            if (image == null)
+            {
+                if (defaultImages != null)
+                {
+                    return defaultImages[Math.Abs(hashCode % defaultImages.Length)];
+                }
+                else
+                {
+                    return null;
+                }
+            };
             return image.Attributes["src"].Value;
         }
-        protected virtual string[] DetectImages(HtmlNode node)
+        protected virtual string[] DetectImages(HtmlNode node, string[] defaultImages, int hashCode)
         {
-            var images = node.SelectNodes("./*/img");
-            if (images == null || images.Count.Equals(0)) return null;
+            var images = node == null ? null : node.SelectNodes("./*/img");
+            if (images == null || images.Count.Equals(0))
+            {
+                if (defaultImages != null)
+                {
+                    return new string[] { defaultImages[Math.Abs(hashCode % defaultImages.Length)] };
+                }
+            };
             return images.Select(o => o.Attributes["src"].Value).ToArray();
         }
         protected abstract WebArticle Genernate(Resource resource, string originalId, string title, string originalUrl, DateTime? datetime);

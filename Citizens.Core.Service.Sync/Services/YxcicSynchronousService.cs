@@ -42,7 +42,10 @@ namespace Citizens.Core.Service.Sync
                     ArticleTitle = title,
                     ArticleTime = datetime ?? DateTime.Now,
                     OpenUrl = originalUrl,
-                    Summary = title
+                    Summary = title,
+                    CoverImage = this.DetectConverImage(null,resource.DefaultImages,originalUrl.GetHashCode()),
+                    Images = this.DetectImages(null,resource.DefaultImages,originalUrl.GetHashCode())
+
                 };
             }
             else
@@ -52,7 +55,7 @@ namespace Citizens.Core.Service.Sync
                 var selector = @"//div[@style='padding:10px;font-size:14px;text-indent:28px;line-height:28px;']";
                 var node = doc.DocumentNode.SelectSingleNode(selector);
                 var selectors = new string[] { };
-                var innerText = node.InnerText;
+                
                 node.Clearup(selectors)
                     .TrimImageUrl(resource.Host)
                     .TrimInsideUrl(resource.Host)
@@ -65,10 +68,10 @@ namespace Citizens.Core.Service.Sync
                     ArticleTitle = title,
                     ArticleVisit = 0,
                     ArticleWriter = string.Empty,
-                    CoverImage = this.DetectConverImage(node) ?? resource.DefaultImage,
-                    Images = this.DetectImages(node) ?? new string[] { resource.DefaultImage },
+                    CoverImage = this.DetectConverImage(node, resource.DefaultImages, originalUrl.GetHashCode()),
+                    Images = this.DetectImages(node, resource.DefaultImages, originalUrl.GetHashCode()) ?? new string[] { },
                     HtmlContent = node.InnerHtml,
-                    Summary = innerText.TrySubstring(0, 300).Trim()
+                    Summary = node.InnerText.Clearup().TrySubstring(0, 260)
 
                 };
             }
@@ -87,7 +90,19 @@ namespace Citizens.Core.Service.Sync
                 PublishToWhichChannel = "5e4a02c3-f446-11e4-aa81-0010030f0c17",
                 ArticleKeyNames = new string[] { "id" },
                 Prefix = "yxcic.",
-                Name = "市民卡通知公告"
+                Name = "市民卡通知公告",
+                DefaultImages = new string[] {
+                    "../assets/img/tzgg0.jpg",
+                    "../assets/img/tzgg1.jpg",
+                    "../assets/img/tzgg2.jpg",
+                    "../assets/img/tzgg3.jpg",
+                    "../assets/img/tzgg4.jpg",
+                    "../assets/img/tzgg5.jpg",
+                    "../assets/img/tzgg6.jpg",
+                    "../assets/img/tzgg7.jpg",
+                    "../assets/img/tzgg8.jpg",
+                    "../assets/img/tzgg9.jpg"
+                }
             };
         }
     }

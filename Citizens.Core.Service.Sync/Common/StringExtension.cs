@@ -32,6 +32,7 @@ namespace Citizens.Core.Service.Sync
         }
         public static string TrimHttplink(this string text, string root)
         {
+            text = text.Replace("amp;", string.Empty);
             if (text.StartsWith("http:", StringComparison.OrdinalIgnoreCase) || text.StartsWith("https:", StringComparison.OrdinalIgnoreCase))
             {
                 return text;
@@ -40,30 +41,31 @@ namespace Citizens.Core.Service.Sync
         }
         public static string GetQueryParameters(this string queryString, out string key, params string[] names)
         {
-            key = string.Empty;
-            var uri = new Uri(queryString);
-            var dictionary = new Dictionary<string, string>();
-            var parameters = uri.Query.ToLower().TrimStart('?').Split("&");
-
-            foreach (var parameter in parameters)
-            {
-                var keyval = parameter.Split('=');
-                if (keyval.Length.Equals(2))
-                    dictionary.Add(keyval[0], keyval[1]);
-                else
+            
+                key = string.Empty;
+                var uri = new Uri(queryString);
+                var dictionary = new Dictionary<string, string>();
+                var parameters = uri.Query.ToLower().TrimStart('?').Split("&");
+                foreach (var parameter in parameters)
                 {
-                    dictionary.Add(keyval[0], string.Empty);
+                    var keyval = parameter.Split('=');
+                    if (keyval.Length.Equals(2))
+                        dictionary.Add(keyval[0], keyval[1]);
+                    else
+                    {
+                        dictionary.Add(keyval[0], string.Empty);
+                    }
                 }
-            }
-            if (dictionary.Keys == null)
-            {
-                Logger.Error($"Cant find key in one of [{string.Join(',', names)}] from query string {queryString}");
-                return string.Empty;
-            }
-            key = dictionary.Keys.Where(o => names.Any(n => n.Equals(o, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
-            return dictionary[key] ?? string.Empty;
-
-
+                if (dictionary.Keys == null || !dictionary.Keys.Any((ctx) =>
+                {
+                    return names.Any(o => o.Equals(ctx, StringComparison.OrdinalIgnoreCase));
+                }))
+                {
+                    Logger.Error($"Cant find key in one of [{string.Join(',', names)}] from query string {queryString}");
+                    return string.Empty;
+                }
+                key = dictionary.Keys.Where(o => names.Any(n => n.Equals(o, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
+                return dictionary[key] ?? string.Empty;
         }
         public static string GetIdfromurl(this string url)
         {

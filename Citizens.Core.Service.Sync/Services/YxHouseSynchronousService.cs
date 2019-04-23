@@ -154,13 +154,14 @@ namespace Citizens.Core.Service.Sync
                 node = doc.DocumentNode.SelectSingleNode("//div[@class='news_show_content']");
                 selectors = new string[] { "./div[@class='aboutread']", "./div[@class='aboutus']" };
             }
-            var innerText = node.InnerText;
+            
             node.Clearup(selectors)
                     .TrimImageUrl(resource.Host)
                     .TrimInsideUrl(resource.Host)
                     .TrimStyles();
 
-            var result = new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
+
+            return new WebArticle(resource.Prefix, originalId, resource.PublishToWhichChannel)
             {
                 OriginalUrl = originalUrl,
                 ArticleSourceName = resource.Name,
@@ -168,16 +169,12 @@ namespace Citizens.Core.Service.Sync
                 ArticleTitle = title,
                 ArticleVisit = 0,
                 ArticleWriter = string.Empty,
-                CoverImage = this.DetectConverImage(node) ?? null,
-                Images = this.DetectImages(node) ?? null,
+                CoverImage = this.DetectConverImage(node,resource.DefaultImages,originalUrl.GetHashCode()) ?? null,
+                Images = this.DetectImages(node,resource.DefaultImages,originalUrl.GetHashCode()) ?? null,
                 HtmlContent = node.InnerHtml,
-                Summary = innerText.TrySubstring(0, 2000)
+                Summary = node.InnerText.Clearup().TrySubstring(0, 260)
             };
-            if (result.Images == null ||string.IsNullOrEmpty(result.CoverImage))
-            {
 
-            }
-            return result;
         }
 
         public HtmlNode GenernateContainer()
