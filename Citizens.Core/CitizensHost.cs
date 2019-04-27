@@ -30,6 +30,7 @@ namespace Citizens.Core
                     cfg.AddLog4Net();
                 });
                 collection.AddMemoryCache();
+                
                 provider = collection.BuildServiceProvider();
             }
         }

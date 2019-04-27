@@ -62,14 +62,15 @@ namespace Citizens.Core.Service.Sync
         protected abstract IEnumerable<Resource> GetResources();
 
         protected abstract IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource);
-        protected virtual string DetectConverImage(HtmlNode node, string[] defaultImages, int hashCode)
+        protected virtual string DetectConverImage(HtmlNode node, string[] defaultImages, string prefix)
         {
-            var image = node==null?null: node.SelectSingleNode("./*/img");
+            var counter = CitizensHost.GetService<Counter>().Get(prefix);
+            var image = node == null ? null : node.SelectSingleNode("./*/img");
             if (image == null)
             {
                 if (defaultImages != null)
                 {
-                    return defaultImages[Math.Abs(hashCode % defaultImages.Length)];
+                    return defaultImages[Math.Abs(counter % defaultImages.Length)];
                 }
                 else
                 {
@@ -78,14 +79,15 @@ namespace Citizens.Core.Service.Sync
             };
             return image.Attributes["src"].Value;
         }
-        protected virtual string[] DetectImages(HtmlNode node, string[] defaultImages, int hashCode)
+        protected virtual string[] DetectImages(HtmlNode node, string[] defaultImages, string prefix)
         {
+            var counter = CitizensHost.GetService<Counter>().Get(prefix);
             var images = node == null ? null : node.SelectNodes("./*/img");
             if (images == null || images.Count.Equals(0))
             {
                 if (defaultImages != null)
                 {
-                    return new string[] { defaultImages[Math.Abs(hashCode % defaultImages.Length)] };
+                    return new string[] { defaultImages[Math.Abs(counter % defaultImages.Length)] };
                 }
             };
             return images.Select(o => o.Attributes["src"].Value).ToArray();

@@ -19,3 +19,5 @@
 *.user
 /UnitTest/ConsoleApp1/bin/Debug/netcoreapp2.1
 /UnitTest/ConsoleApp1/obj
+/Tools/ConsoleApp2/bin/Debug/netcoreapp2.1
+/Tools/ConsoleApp2/obj

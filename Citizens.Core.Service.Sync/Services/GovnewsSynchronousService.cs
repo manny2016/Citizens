@@ -68,7 +68,7 @@ namespace Citizens.Core.Service.Sync
                     node.RemoveChild(span);
                 }
                 var url = node.Attributes["href"].Value.TrimHttplink(resource.Host);
-                var title = node.InnerText;                
+                var title = node.InnerText;
                 var contextId = url.GetIdfromurl();
                 yield return Genernate(resource, contextId, title, url, datetime);
             }
@@ -93,8 +93,8 @@ namespace Citizens.Core.Service.Sync
                 ArticleTitle = title,
                 ArticleVisit = 0,
                 ArticleWriter = string.Empty,
-                CoverImage = this.DetectConverImage(node, resource.DefaultImages, originalUrl.GetHashCode()) ?? null,
-                Images = this.DetectImages(node, resource.DefaultImages, originalUrl.GetHashCode()) ?? new string[] { },
+                CoverImage = this.DetectConverImage(node, resource.DefaultImages, resource.Prefix) ?? null,
+                Images = this.DetectImages(node, resource.DefaultImages, resource.Prefix) ?? new string[] { },
                 HtmlContent = node.InnerHtml,
                 Summary = node.InnerText.Clearup().TrySubstring(0, 260)
             };

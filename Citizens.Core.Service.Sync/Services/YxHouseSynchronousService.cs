@@ -20,26 +20,9 @@ namespace Citizens.Core.Service.Sync
         {
             this.Settings = settings;
         }
-        public void Dispose()
-        {
 
-        }
         const string Plan_NewsPlan = "yxhouse.newplan.";
-        //public void Process(Action<WebArticle> pass, CancellationToken token)
-        //{
-        //    foreach (var resource in this.GetResources())
-        //    {
-        //        var doc = new HtmlDocument();
-        //        doc.LoadHtml(resource.Url.GetUriContent());
-        //        foreach (var article in this.Genernate(doc, resource))
-        //        {
-        //            if (article != null)
-        //            {
-        //                pass(article);
-        //            }
-        //        }
-        //    }
-        //}
+
 
         protected override IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource)
         {
@@ -55,10 +38,11 @@ namespace Citizens.Core.Service.Sync
                 {
                     var columns = node.SelectNodes("./td");
                     if (columns == null || columns.Count.Equals(0)) continue;
-                    var title = string.Concat(columns[0].InnerText, columns[1].InnerText).Clearup();
+                    var title = columns[1].SelectSingleNode("./a").Attributes["title"].Value.Clearup(); //string.Concat(columns[0].InnerText, columns[1].InnerText).Clearup();
                     var link = columns[1].SelectSingleNode("./a").Attributes["href"].Value.TrimHttplink(resource.Host);
                     var date = columns[2].InnerText.TrytoDateTime();
                     var originalId = link.GetQueryParameters(out string keyName, resource.ArticleKeyNames);
+                    yield return Genernate(resource, originalId, title, link, date);
                 }
                 else
                 {
@@ -73,42 +57,42 @@ namespace Citizens.Core.Service.Sync
 
         protected override IEnumerable<Resource> GetResources()
         {
-            yield return new Resource()
-            {
-                Url = "https://www.yxhouse.com/tbs/morenews.action?typeId=6&&pageIndexName=first&&currentPage=0",
-                PublishToWhichChannel = "104C37DE-E3CB-44BA-97B5-4001B0A27098",
-                Description = "房产新闻",
-                ArticleKeyNames = new string[] { "newsId", "buildingId" },
-                Prefix = "yxhouse.news.",
-                Host = "https://www.yxhouse.com/",
-                Name = "房产新闻",
-                DefaultImages = new string[] {
-                    "../assets/img/fcxw0.png",
-                    "../assets/img/fcxw1.png",
-                    "../assets/img/fcxw2.png",
-                    "../assets/img/fcxw3.png",
-                    "../assets/img/fcxw4.png"
-                }
+            //yield return new Resource()
+            //{
+            //    Url = "https://www.yxhouse.com/tbs/morenews.action?typeId=6&&pageIndexName=first&&currentPage=0",
+            //    PublishToWhichChannel = "104C37DE-E3CB-44BA-97B5-4001B0A27098",
+            //    Description = "房产新闻",
+            //    ArticleKeyNames = new string[] { "newsId", "buildingId" },
+            //    Prefix = "yxhouse.news.",
+            //    Host = "https://www.yxhouse.com/",
+            //    Name = "房产新闻",
+            //    DefaultImages = new string[] {
+            //        "../assets/img/fcxw0.png",
+            //        "../assets/img/fcxw1.png",
+            //        "../assets/img/fcxw2.png",
+            //        "../assets/img/fcxw3.png",
+            //        "../assets/img/fcxw4.png"
+            //    }
 
-            };
+            //};
 
-            yield return new Resource()
-            {
-                Url = "https://www.yxhouse.com/tbs/morebuilding.action?typeId=3&&pageIndexName=first&&currentPage=0",
-                PublishToWhichChannel = "DB7C2848-C7AD-4A76-ABF3-0D91029F7019",
-                Description = "新房资讯",
-                ArticleKeyNames = new string[] { "newsId", "buildingId" },
-                Prefix = "yxhouse.newhouse.",
-                Host = "https://www.yxhouse.com/",
-                Name = "新房资讯",
-                DefaultImages = new string[] {
-                    "../assets/img/fcxw5.png",
-                    "../assets/img/fcxw6.png",
-                    "../assets/img/fcxw7.png",
-                    "../assets/img/fcxw8.png",
-                    "../assets/img/fcxw9.png",
-                }
-            };
+            //yield return new Resource()
+            //{
+            //    Url = "https://www.yxhouse.com/tbs/morebuilding.action?typeId=3&&pageIndexName=first&&currentPage=0",
+            //    PublishToWhichChannel = "DB7C2848-C7AD-4A76-ABF3-0D91029F7019",
+            //    Description = "新房资讯",
+            //    ArticleKeyNames = new string[] { "newsId", "buildingId" },
+            //    Prefix = "yxhouse.newhouse.",
+            //    Host = "https://www.yxhouse.com/",
+            //    Name = "新房资讯",
+            //    DefaultImages = new string[] {
+            //        "../assets/img/fcxw5.png",
+            //        "../assets/img/fcxw6.png",
+            //        "../assets/img/fcxw7.png",
+            //        "../assets/img/fcxw8.png",
+            //        "../assets/img/fcxw9.png",
+            //    }
+            //};
 
             yield return new Resource()
             {
@@ -142,19 +126,18 @@ namespace Citizens.Core.Service.Sync
 
             if (resource.Prefix.Equals(Plan_NewsPlan))
             {
-                var tables = doc.DocumentNode.SelectNodes(@"//table");
-                tables.RemoveAt(0);
-                tables.RemoveAt(tables.Count - 1);
+                var header = doc.DocumentNode.SelectNodes("//table")[1];
+                var body = doc.DocumentNode.SelectSingleNode("//table/*/td[@id='myTd']");
                 node = GenernateContainer();
-                foreach (var table in tables) { node.ChildNodes.Add(table); }
-                selectors = new string[] { "./*/td[@style='font-size:23px;color:#262626; font-weight" };
+                node.AppendChild(header);
+                node.AppendChild(GenernateContainer().AppendChild(body));
             }
             else
             {
                 node = doc.DocumentNode.SelectSingleNode("//div[@class='news_show_content']");
                 selectors = new string[] { "./div[@class='aboutread']", "./div[@class='aboutus']" };
             }
-            
+
             node.Clearup(selectors)
                     .TrimImageUrl(resource.Host)
                     .TrimInsideUrl(resource.Host)
@@ -169,8 +152,8 @@ namespace Citizens.Core.Service.Sync
                 ArticleTitle = title,
                 ArticleVisit = 0,
                 ArticleWriter = string.Empty,
-                CoverImage = this.DetectConverImage(node,resource.DefaultImages,originalUrl.GetHashCode()) ?? null,
-                Images = this.DetectImages(node,resource.DefaultImages,originalUrl.GetHashCode()) ?? null,
+                CoverImage = this.DetectConverImage(node, resource.DefaultImages, resource.Prefix) ?? null,
+                Images = this.DetectImages(node, resource.DefaultImages, resource.Prefix) ?? null,
                 HtmlContent = node.InnerHtml,
                 Summary = node.InnerText.Clearup().TrySubstring(0, 260)
             };
@@ -180,7 +163,7 @@ namespace Citizens.Core.Service.Sync
         public HtmlNode GenernateContainer()
         {
             var document = new HtmlDocument();
-            document.Load("<div></div>");
+            document.LoadHtml("<div></div>");
             return document.DocumentNode;
         }
     }

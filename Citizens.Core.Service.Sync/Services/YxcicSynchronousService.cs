@@ -43,8 +43,8 @@ namespace Citizens.Core.Service.Sync
                     ArticleTime = datetime ?? DateTime.Now,
                     OpenUrl = originalUrl,
                     Summary = title,
-                    CoverImage = this.DetectConverImage(null,resource.DefaultImages,originalUrl.GetHashCode()),
-                    Images = this.DetectImages(null,resource.DefaultImages,originalUrl.GetHashCode())
+                    CoverImage = this.DetectConverImage(null, resource.DefaultImages, resource.Prefix),
+                    Images = this.DetectImages(null, resource.DefaultImages, resource.Prefix)
 
                 };
             }
@@ -55,7 +55,7 @@ namespace Citizens.Core.Service.Sync
                 var selector = @"//div[@style='padding:10px;font-size:14px;text-indent:28px;line-height:28px;']";
                 var node = doc.DocumentNode.SelectSingleNode(selector);
                 var selectors = new string[] { };
-                
+
                 node.Clearup(selectors)
                     .TrimImageUrl(resource.Host)
                     .TrimInsideUrl(resource.Host)
@@ -68,8 +68,8 @@ namespace Citizens.Core.Service.Sync
                     ArticleTitle = title,
                     ArticleVisit = 0,
                     ArticleWriter = string.Empty,
-                    CoverImage = this.DetectConverImage(node, resource.DefaultImages, originalUrl.GetHashCode()),
-                    Images = this.DetectImages(node, resource.DefaultImages, originalUrl.GetHashCode()) ?? new string[] { },
+                    CoverImage = this.DetectConverImage(node, resource.DefaultImages,  resource.Prefix),
+                    Images = this.DetectImages(node, resource.DefaultImages, resource.Prefix) ?? new string[] { },
                     HtmlContent = node.InnerHtml,
                     Summary = node.InnerText.Clearup().TrySubstring(0, 260)
 

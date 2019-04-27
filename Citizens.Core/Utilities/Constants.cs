@@ -5,7 +5,7 @@ namespace Citizens.Core
     using Citizens.Core.Models;
     using Microsoft.SqlServer.Server;
     using System.Data;
-    using System.Data;
+    
     public static class Constants
     {
         

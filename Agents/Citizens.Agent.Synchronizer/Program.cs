@@ -20,7 +20,7 @@ namespace Citizens.Agent.Synchronizer
         {
             CitizensHost.ConfigureServiceProvider((configure) =>
             {
-                //configure.AddCoreServices();
+                configure.AddCoreServices();
                 var yxhouse = new YxhouseHtmlSynchronousSettings();
                 configure.Add(new ServiceDescriptor(typeof(ICitizensWorkItem),
                     new WorkItemWithDataflow<YxhouseHtmlSynchronousState, WebArticle>(new YxhouseHtmlSynchronousState(yxhouse))));

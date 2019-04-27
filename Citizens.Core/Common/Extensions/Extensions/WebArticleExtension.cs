@@ -170,7 +170,7 @@ namespace Citizens.Core
             }
             catch (Exception ex)
             {
-
+                Logger.Error(ex);
             }
 
         }

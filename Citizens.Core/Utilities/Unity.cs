@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace Citizens.Core
+﻿namespace Citizens.Core
 {
     using Citizens.Core.Models;
     using Microsoft.SqlServer.Server;
