@@ -10,10 +10,12 @@ namespace Citizens.Core.Service.Sync
     using System.Threading;
     using System.Linq;
     using HtmlAgilityPack;
+    using Citizens.Core;
 
     public class YxHouseSynchronousService : SynchronousService
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(YxHouseSynchronousService));
+        private static SmoothRequestingManagement smooth = new SmoothRequestingManagement(1, 3);//1 time per 3 second
         private readonly YxhouseHtmlSynchronousSettings Settings;
 
         public YxHouseSynchronousService(YxhouseHtmlSynchronousSettings settings)
@@ -57,42 +59,42 @@ namespace Citizens.Core.Service.Sync
 
         protected override IEnumerable<Resource> GetResources()
         {
-            //yield return new Resource()
-            //{
-            //    Url = "https://www.yxhouse.com/tbs/morenews.action?typeId=6&&pageIndexName=first&&currentPage=0",
-            //    PublishToWhichChannel = "104C37DE-E3CB-44BA-97B5-4001B0A27098",
-            //    Description = "房产新闻",
-            //    ArticleKeyNames = new string[] { "newsId", "buildingId" },
-            //    Prefix = "yxhouse.news.",
-            //    Host = "https://www.yxhouse.com/",
-            //    Name = "房产新闻",
-            //    DefaultImages = new string[] {
-            //        "../assets/img/fcxw0.png",
-            //        "../assets/img/fcxw1.png",
-            //        "../assets/img/fcxw2.png",
-            //        "../assets/img/fcxw3.png",
-            //        "../assets/img/fcxw4.png"
-            //    }
+            yield return new Resource()
+            {
+                Url = "https://www.yxhouse.com/tbs/morenews.action?typeId=6&&pageIndexName=first&&currentPage=0",
+                PublishToWhichChannel = "104C37DE-E3CB-44BA-97B5-4001B0A27098",
+                Description = "房产新闻",
+                ArticleKeyNames = new string[] { "newsId", "buildingId" },
+                Prefix = "yxhouse.news.",
+                Host = "https://www.yxhouse.com/",
+                Name = "房产新闻",
+                DefaultImages = new string[] {
+                    "../assets/img/fcxw0.png",
+                    "../assets/img/fcxw1.png",
+                    "../assets/img/fcxw2.png",
+                    "../assets/img/fcxw3.png",
+                    "../assets/img/fcxw4.png"
+                }
 
-            //};
+            };
 
-            //yield return new Resource()
-            //{
-            //    Url = "https://www.yxhouse.com/tbs/morebuilding.action?typeId=3&&pageIndexName=first&&currentPage=0",
-            //    PublishToWhichChannel = "DB7C2848-C7AD-4A76-ABF3-0D91029F7019",
-            //    Description = "新房资讯",
-            //    ArticleKeyNames = new string[] { "newsId", "buildingId" },
-            //    Prefix = "yxhouse.newhouse.",
-            //    Host = "https://www.yxhouse.com/",
-            //    Name = "新房资讯",
-            //    DefaultImages = new string[] {
-            //        "../assets/img/fcxw5.png",
-            //        "../assets/img/fcxw6.png",
-            //        "../assets/img/fcxw7.png",
-            //        "../assets/img/fcxw8.png",
-            //        "../assets/img/fcxw9.png",
-            //    }
-            //};
+            yield return new Resource()
+            {
+                Url = "https://www.yxhouse.com/tbs/morebuilding.action?typeId=3&&pageIndexName=first&&currentPage=0",
+                PublishToWhichChannel = "DB7C2848-C7AD-4A76-ABF3-0D91029F7019",
+                Description = "新房资讯",
+                ArticleKeyNames = new string[] { "newsId", "buildingId" },
+                Prefix = "yxhouse.newhouse.",
+                Host = "https://www.yxhouse.com/",
+                Name = "新房资讯",
+                DefaultImages = new string[] {
+                    "../assets/img/fcxw5.png",
+                    "../assets/img/fcxw6.png",
+                    "../assets/img/fcxw7.png",
+                    "../assets/img/fcxw8.png",
+                    "../assets/img/fcxw9.png",
+                }
+            };
 
             yield return new Resource()
             {
@@ -120,7 +122,10 @@ namespace Citizens.Core.Service.Sync
         {
             if (string.IsNullOrEmpty(originalId)) return null;
             var doc = new HtmlDocument();
-            doc.LoadHtml(originalUrl.GetUriContent());
+            doc.LoadHtml(smooth.Request<string>(() =>
+            {
+                return originalUrl.GetUriContentDirectly();
+            }));
             HtmlNode node = null;
             var selectors = new string[] { };
 
