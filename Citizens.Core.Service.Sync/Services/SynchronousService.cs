@@ -16,15 +16,48 @@ namespace Citizens.Core.Service.Sync
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(SynchronousService));
         private readonly IMemoryCache cache = CitizensHost.GetService<IMemoryCache>();
+        protected SynchronousSettings Settings { get; private set; }
+        public SynchronousService(SynchronousSettings settings)
+        {
+            this.Settings = settings;
+            this.Settings.LeadSources = this.Settings.LeadSources ?? new LeadSource[] { };
+        }
         public void Dispose()
         {
 
         }
-
+        private IEnumerable<Resource> LoadResourceFromSettings()
+        {
+            return this.GetResources().SelectMany((ctx) =>
+             {
+                 var list = this.Settings.LeadSources.Where(o => o.Prefix.Equals(ctx.Prefix))
+                 .Select((lead) =>
+                 {
+                     return new Resource()
+                     {
+                         ArticleKeyNames = ctx.ArticleKeyNames,
+                         DefaultImages = ctx.DefaultImages,
+                         Description = ctx.Description,
+                         Host = ctx.Host,
+                         Name = ctx.Name,
+                         Prefix = ctx.Prefix,
+                         PublishToWhichChannel = ctx.PublishToWhichChannel,
+                         Url = lead.Url
+                     };
+                 });
+                 if (list == null || list.Count().Equals(0))
+                 {
+                     list = new List<Resource>() { ctx };
+                 }
+                 return list;
+             });
+        }
 
         public void Process(Action<WebArticle> pass, CancellationToken token)
         {
-            foreach (var resource in this.GetResources())
+
+
+            foreach (var resource in this.LoadResourceFromSettings())
             {
                 var doc = new HtmlDocument();
                 var html = resource.Url.GetUriContent();

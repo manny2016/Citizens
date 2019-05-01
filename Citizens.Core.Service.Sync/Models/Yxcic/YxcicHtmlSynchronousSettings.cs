@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxcicHtmlSynchronousSettings : IProcessSetting<WebArticle>
+    public class YxcicHtmlSynchronousSettings : SynchronousSettings
     {
-        public IProcessService<WebArticle> GenerateProcessService()
+        public override IProcessService<WebArticle> GenerateProcessService()
         {
 
-            return new YxcicSynchronousService();
+            return new YxcicSynchronousService(this);
         }
     }
 }

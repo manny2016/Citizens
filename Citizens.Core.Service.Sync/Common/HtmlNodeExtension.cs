@@ -28,23 +28,36 @@ namespace Citizens.Core.Service.Sync
             {
                 foreach (var node in nodes)
                 {
-                    var url = node.Attributes["src"].Value;
-                    node.SetAttributeValue("src", url.TrimHttplink(root));
-                    //Logger.InfoFormat("trim image url: {0}->{1}", url, url.TrimHttplink(root));
+                    if (node.Attributes["src"] != null)
+                    {
+                        var url = node.Attributes["src"].Value;
+                        node.SetAttributeValue("src", url.TrimHttplink(root));
+                    }
+                    else
+                    {
+                        parent.RemoveChild(node);
+                    }
                 }
             }
             return parent;
         }
         public static HtmlNode TrimInsideUrl(this HtmlNode parent, string root)
         {
+
             var nodes = parent.SelectNodes("./*/a");
             if (nodes != null)
             {
                 foreach (var node in nodes)
                 {
-                    var url = node.Attributes["href"].Value;
-                    node.SetAttributeValue("href", url.TrimHttplink(root));
-                    //Logger.InfoFormat("trim a href: {0}->{1}", url, url.TrimHttplink(root));
+                    if (node.Attributes["href"] != null)
+                    {
+                        var url = node.Attributes["href"].Value;
+                        node.SetAttributeValue("href", url.TrimHttplink(root));
+                    }
+                    else
+                    {
+                       // parent.RemoveChild(node);
+                    }
                 }
             }
             return parent;

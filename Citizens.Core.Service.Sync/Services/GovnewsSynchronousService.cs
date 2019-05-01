@@ -14,7 +14,9 @@ namespace Citizens.Core.Service.Sync
     public class GovnewsSynchronousService : SynchronousService// IProcessService<HtmlContext>
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(YxHouseSynchronousService));
-
+        public GovnewsSynchronousService(SynchronousSettings settings) : base(settings)
+        {
+        }
         protected override IEnumerable<Resource> GetResources()
         {
             yield return new Resource()

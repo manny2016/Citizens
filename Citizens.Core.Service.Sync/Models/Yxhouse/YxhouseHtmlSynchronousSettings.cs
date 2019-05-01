@@ -6,12 +6,14 @@ using System.Text;
 
 namespace Citizens.Core.Sync.Models
 {
-    public class YxhouseHtmlSynchronousSettings : IProcessSetting<WebArticle>
+    public class YxhouseHtmlSynchronousSettings : SynchronousSettings
     {
-        public IProcessService<WebArticle> GenerateProcessService()
+        public override IProcessService<WebArticle> GenerateProcessService()
         {
 
             return new YxHouseSynchronousService(this);
         }
+
+        
     }
 }

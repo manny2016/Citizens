@@ -15,7 +15,8 @@ namespace Citizens.Core.Service.Sync
     /// </summary>
     public class YxcicSynchronousService : SynchronousService
     {
-
+        public YxcicSynchronousService(SynchronousSettings settings) :base(settings){
+        }
         protected override IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource)
         {
             var list = document.DocumentNode.SelectNodes(@"//li[@class='point']");
@@ -68,8 +69,8 @@ namespace Citizens.Core.Service.Sync
                     ArticleTitle = title,
                     ArticleVisit = 0,
                     ArticleWriter = string.Empty,
-                    CoverImage = this.DetectConverImage(node, resource.DefaultImages,  resource.Prefix),
-                    Images = this.DetectImages(node, resource.DefaultImages, resource.Prefix) ?? new string[] { },
+                    CoverImage = this.DetectConverImage(null, resource.DefaultImages, resource.Prefix),
+                    Images = this.DetectImages(null, resource.DefaultImages, resource.Prefix) ?? new string[] { },
                     HtmlContent = node.InnerHtml,
                     Summary = node.InnerText.Clearup().TrySubstring(0, 260)
 

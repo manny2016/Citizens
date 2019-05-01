@@ -6,6 +6,7 @@ namespace Citizens.Core
 {
     public interface IProcessSetting<ProcessingResult>
     {
+        
         IProcessService<ProcessingResult> GenerateProcessService();
     }
 }

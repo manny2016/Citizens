@@ -75,5 +75,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Upgard\Upgard_0.1.1.sql" />
+    <None Include="Upgard\Upgrade0.1.2.sql" />
   </ItemGroup>
 </Project>
