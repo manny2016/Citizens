@@ -30,7 +30,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{88
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "UnitTest\ConsoleApp1\ConsoleApp1.csproj", "{5D901B60-733D-43F2-B163-495E921D5A1E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp2", "Tools\ConsoleApp2\ConsoleApp2.csproj", "{4681E0A6-6C80-420A-90DA-DFB49265998B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp2", "Tools\ConsoleApp2\ConsoleApp2.csproj", "{4681E0A6-6C80-420A-90DA-DFB49265998B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ConfigFiles", "ConfigFiles", "{736132A7-4CED-4E13-A7F3-42A748ABAD8B}"
+	ProjectSection(SolutionItems) = preProject
+		Agents\ConfigFiles\log4net.config = Agents\ConfigFiles\log4net.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -78,6 +83,7 @@ Global
 		{8A912603-3F74-49AD-8A81-308F5E8AA983} = {DFF067EF-315D-482C-8F57-8E74F2BAD483}
 		{5D901B60-733D-43F2-B163-495E921D5A1E} = {88257236-F9B1-4A41-B2F8-F4B705F15EFE}
 		{4681E0A6-6C80-420A-90DA-DFB49265998B} = {8B05CACE-0729-42BE-B013-B8AAC1DE106F}
+		{736132A7-4CED-4E13-A7F3-42A748ABAD8B} = {0F855316-9157-4447-8A41-309BCD08125B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6FA70BCB-9076-42B7-BBDA-C30850B064D4}
