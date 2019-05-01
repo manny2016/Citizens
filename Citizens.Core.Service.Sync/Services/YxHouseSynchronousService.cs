@@ -10,6 +10,7 @@ namespace Citizens.Core.Service.Sync
     using System.Threading;
     using System.Linq;
     using HtmlAgilityPack;
+    using Citizens.Core;
 
     public class YxHouseSynchronousService : SynchronousService
     {
@@ -120,7 +121,10 @@ namespace Citizens.Core.Service.Sync
         {
             if (string.IsNullOrEmpty(originalId)) return null;
             var doc = new HtmlDocument();
-            doc.LoadHtml(originalUrl.GetUriContent());
+            doc.LoadHtml(smooth.Request<string>(() =>
+            {
+                return originalUrl.GetUriContentDirectly();
+            }));
             HtmlNode node = null;
             var selectors = new string[] { };
 
