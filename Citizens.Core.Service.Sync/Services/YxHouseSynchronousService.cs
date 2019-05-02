@@ -16,7 +16,7 @@ namespace Citizens.Core.Service.Sync
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(YxHouseSynchronousService));
 
-
+        private readonly SmoothRequestingManagement smooth = new SmoothRequestingManagement(1, 1);
         public YxHouseSynchronousService(SynchronousSettings settings) : base(settings)
         {
 
