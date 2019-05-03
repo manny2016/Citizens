@@ -41,36 +41,45 @@ namespace Citizens.Core.Service.Sync
         }
         public static string GetQueryParameters(this string queryString, out string key, params string[] names)
         {
-            
-                key = string.Empty;
-                var uri = new Uri(queryString);
-                var dictionary = new Dictionary<string, string>();
-                var parameters = uri.Query.ToLower().TrimStart('?').Split("&");
-                foreach (var parameter in parameters)
+
+            key = string.Empty;
+            var uri = new Uri(queryString);
+            var dictionary = new Dictionary<string, string>();
+            var parameters = uri.Query.ToLower().TrimStart('?').Split("&");
+            foreach (var parameter in parameters)
+            {
+                var keyval = parameter.Split('=');
+                if (keyval.Length.Equals(2))
+                    dictionary.Add(keyval[0], keyval[1]);
+                else
                 {
-                    var keyval = parameter.Split('=');
-                    if (keyval.Length.Equals(2))
-                        dictionary.Add(keyval[0], keyval[1]);
-                    else
-                    {
-                        dictionary.Add(keyval[0], string.Empty);
-                    }
+                    dictionary.Add(keyval[0], string.Empty);
                 }
-                if (dictionary.Keys == null || !dictionary.Keys.Any((ctx) =>
-                {
-                    return names.Any(o => o.Equals(ctx, StringComparison.OrdinalIgnoreCase));
-                }))
-                {
-                    Logger.Error($"Cant find key in one of [{string.Join(',', names)}] from query string {queryString}");
-                    return string.Empty;
-                }
-                key = dictionary.Keys.Where(o => names.Any(n => n.Equals(o, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
-                return dictionary[key] ?? string.Empty;
+            }
+            if (dictionary.Keys == null || !dictionary.Keys.Any((ctx) =>
+            {
+                return names.Any(o => o.Equals(ctx, StringComparison.OrdinalIgnoreCase));
+            }))
+            {
+                Logger.Error($"Cant find key in one of [{string.Join(',', names)}] from query string {queryString}");
+                return string.Empty;
+            }
+            key = dictionary.Keys.Where(o => names.Any(n => n.Equals(o, StringComparison.OrdinalIgnoreCase))).FirstOrDefault();
+            return dictionary[key] ?? string.Empty;
         }
         public static string GetIdfromurl(this string url)
         {
             var array = url.Split('/');
             return array[array.Length - 1].Split('.')[0];
+        }
+        public static bool IsImageUrl(this string url)
+        {
+            var extensions = new string[] { ".png", ".jpg", ".jpeg", "bmp", "tiff" };
+            if (string.IsNullOrEmpty(url)) return false;
+            return extensions.Any((o) =>
+            {
+                return url.EndsWith(o);
+            });
         }
     }
 }
