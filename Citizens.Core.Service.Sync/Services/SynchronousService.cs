@@ -98,20 +98,18 @@ namespace Citizens.Core.Service.Sync
         protected abstract IEnumerable<WebArticle> Genernate(HtmlDocument document, Resource resource);
         protected virtual string DetectConverImage(HtmlNode node, string[] defaultImages, string prefix)
         {
+
             var counter = CitizensHost.GetService<Counter>().Get(prefix);
             var image = node == null ? null : node.SelectSingleNode("./*/img");
             if (image == null)
             {
-                if (defaultImages != null)
-                {
-                    return defaultImages[Math.Abs(counter % defaultImages.Length)];
-                }
-                else
-                {
-                    return null;
-                }
+                return defaultImages[Math.Abs(counter % defaultImages.Length)];
             };
-            return image.Attributes["src"].Value;
+            if (image.Attributes["src"].Value.IsImageUrl())
+                return image.Attributes["src"].Value;
+            else
+                return defaultImages[Math.Abs(counter % defaultImages.Length)];
+
         }
         protected virtual string[] DetectImages(HtmlNode node, string[] defaultImages, string prefix)
         {
