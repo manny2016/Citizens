@@ -16,6 +16,7 @@ namespace Citizens.Core.Service.Sync
     {
         private static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(typeof(SynchronousService));
         private readonly IMemoryCache cache = CitizensHost.GetService<IMemoryCache>();
+        protected static SmoothRequestingManagement smooth = new SmoothRequestingManagement(3, 1);
         protected SynchronousSettings Settings { get; private set; }
         public SynchronousService(SynchronousSettings settings)
         {
@@ -26,7 +27,7 @@ namespace Citizens.Core.Service.Sync
         {
 
         }
-        private IEnumerable<Resource> LoadResourceFromSettings()
+        protected IEnumerable<Resource> LoadResourceFromSettings()
         {
             return this.GetResources().SelectMany((ctx) =>
              {
@@ -53,13 +54,13 @@ namespace Citizens.Core.Service.Sync
              });
         }
 
-        public void Process(Action<WebArticle> pass, CancellationToken token)
+        public virtual void Process(Action<WebArticle> pass, CancellationToken token)
         {
-
-
             foreach (var resource in this.LoadResourceFromSettings())
             {
                 var doc = new HtmlDocument();
+
+
                 var html = resource.Url.GetUriContent();
                 if (this.HasChanged(resource.Prefix, html))
                 {
@@ -76,7 +77,7 @@ namespace Citizens.Core.Service.Sync
                 }
             }
         }
-        private bool HasChanged(string prefix, string html)
+        protected bool HasChanged(string prefix, string html)
         {
             var oldmd5 = cache.GetOrCreate<string>(prefix, (entity) =>
             {
