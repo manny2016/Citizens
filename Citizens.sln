@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Citizens.Core", "Citizens.Core\Citizens.Core.csproj", "{93829A80-F5F2-41B8-8A7B-DFDE621E86A6}"
 EndProject
@@ -16,9 +16,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Citizens.Core.Service", "Citizens.Core.Service\Citizens.Core.Service.csproj", "{F296C473-7364-4300-BF1C-5E5C9404434A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{DFF067EF-315D-482C-8F57-8E74F2BAD483}"
-	ProjectSection(SolutionItems) = preProject
-		Agents\Citizens.Agent.Synchronizer\Program.cs = Agents\Citizens.Agent.Synchronizer\Program.cs
-	EndProjectSection
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Citizens.Database", "Database\Citizens.database\Citizens.Database.sqlproj", "{8A912603-3F74-49AD-8A81-308F5E8AA983}"
 EndProject
